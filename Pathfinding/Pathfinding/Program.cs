@@ -42,10 +42,30 @@ namespace Pathfinding
             //n*2 indexes after the first are coordinates
             int coordRange = (nodeNum * 2) + 1;
 
+            List<Node> nodes = new List<Node>();
             //create array of nodes with coordinates
             for(int i = 1; i>coordRange; i+=2)
             {
                 Node node = new Node(i, i + 1);
+                nodes.Add(node);
+            }
+
+            //starting number of index to look at for connections from first node
+            int consIndex = coordRange + 1;
+
+            //set connections for each node
+            for (int i = 0; i<nodeNum; i++)
+            {
+
+                int[] temp = new int[0];
+
+                //copy from data array starting at index where connections start, to the temp array at index 0 for length of the number of nodes
+                Array.Copy(data, consIndex, temp, 0, nodeNum);
+
+                nodes[i].SetConnections(temp);
+
+                //set the next starting index for array copy
+                consIndex += nodeNum;
             }
         }
     }

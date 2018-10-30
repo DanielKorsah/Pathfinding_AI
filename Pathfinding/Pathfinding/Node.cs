@@ -10,11 +10,14 @@ namespace Pathfinding
     {
         public int X { get; set; }
         public int Y { get; set; }
+        public int[] Connections { get; private set; }
 
         public Node(int a, int b)
         {
             X = a;
             Y = b;
         }
+
+        public void SetConnections(int[]x) { Connections = x; } 
     }
 }
