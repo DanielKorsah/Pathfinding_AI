@@ -18,6 +18,6 @@ namespace Pathfinding
             Y = b;
         }
 
-        public void SetConnections(int[]x) { Connections = x; } 
+        public void SetConnections(int[] con) { Connections = con; } 
     }
 }
