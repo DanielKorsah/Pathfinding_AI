@@ -11,40 +11,45 @@ namespace Pathfinding
     class Program
     {
 
-        static int[] getData()
+        static int[] getData(string file)
         {
             try
             {
-                StreamReader s = new StreamReader("/datasets/" + "file");
-                string[] stringData = Regex.Split(s.ReadToEnd(), ",");
+                string path = Directory.GetCurrentDirectory() + @"/datasets/" + file;
+                string s = File.ReadAllText(path);
+                string[] stringData = Regex.Split(s, ",");
                 return Array.ConvertAll(stringData, int.Parse);
             }
             catch (Exception e)
             {
                 Console.WriteLine("File cannot be read");
                 Console.WriteLine(e.Message);
+                Console.WriteLine(file);
                 Environment.Exit(3);    //exit code 2 : The system cannot find the file specified.
                 return null;
             }
         }
+        
 
         static void Main(string[] args)
         {
+            
             //the file is the first argument after the file name
-            string file = args[1];
+            
+            string file = args[0];
 
             //get the data out of the file as an array
-            int[] data = getData();
+            int[] data = getData(file);
 
             //number of nodes is at index 0
             int nodeNum = data[0];
 
             //n*2 indexes after the first are coordinates
-            int coordRange = (nodeNum * 2) + 1;
+            int coordRange = (nodeNum * 2);
 
             List<Node> nodes = new List<Node>();
             //create array of nodes with coordinates
-            for(int i = 1; i>coordRange; i+=2)
+            for(int i = 1; i < coordRange; i+=2)
             {
                 Node node = new Node(i, i + 1);
                 nodes.Add(node);
@@ -57,7 +62,7 @@ namespace Pathfinding
             for (int i = 0; i<nodeNum; i++)
             {
 
-                int[] temp = new int[0];
+                int[] temp = new int[nodeNum];
 
                 //copy from data array starting at index where connections start, to the temp array at index 0 for length of the number of nodes
                 Array.Copy(data, consIndex, temp, 0, nodeNum);
@@ -67,6 +72,14 @@ namespace Pathfinding
                 //set the next starting index for array copy
                 consIndex += nodeNum;
             }
+
+            foreach(Node n in nodes)
+            {
+                Console.Write(string.Join(" ", n.Connections));
+                Console.Write("\n");
+            }
+
+            Console.ReadKey();
         }
     }
 }
