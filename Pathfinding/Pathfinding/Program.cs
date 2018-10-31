@@ -11,7 +11,40 @@ namespace Pathfinding
     class Program
     {
 
-        static int[] getData(string file)
+        
+        
+
+        static void Main(string[] args)
+        {
+
+            //the file is the first argument after the file name
+
+            string file = args[0];
+
+            //get the data out of the file as an array
+            int[] data = GetData(file);
+
+            //number of nodes is at index 0
+            int nodeNum = data[0];
+
+            //n*2 indexes after the first are coordinates
+            int coordRange = (nodeNum * 2);
+
+            List<Node> nodes = new List<Node>();
+            IntialiseNodes(data, nodeNum, coordRange, nodes);
+
+            foreach (Node n in nodes)
+            {
+                Console.Write(string.Join(" ", n.Connections));
+                Console.Write("\n");
+            }
+
+            Console.ReadKey();
+        }
+
+
+
+        private static int[] GetData(string file)
         {
             try
             {
@@ -29,27 +62,11 @@ namespace Pathfinding
                 return null;
             }
         }
-        
 
-        static void Main(string[] args)
+        private static void IntialiseNodes(int[] data, int nodeNum, int coordRange, List<Node> nodes)
         {
-            
-            //the file is the first argument after the file name
-            
-            string file = args[0];
-
-            //get the data out of the file as an array
-            int[] data = getData(file);
-
-            //number of nodes is at index 0
-            int nodeNum = data[0];
-
-            //n*2 indexes after the first are coordinates
-            int coordRange = (nodeNum * 2);
-
-            List<Node> nodes = new List<Node>();
             //create array of nodes with coordinates
-            for(int i = 1; i < coordRange; i+=2)
+            for (int i = 1; i < coordRange; i += 2)
             {
                 Node node = new Node(i, i + 1);
                 nodes.Add(node);
@@ -59,7 +76,7 @@ namespace Pathfinding
             int consIndex = coordRange + 1;
 
             //set connections for each node
-            for (int i = 0; i<nodeNum; i++)
+            for (int i = 0; i < nodeNum; i++)
             {
 
                 int[] temp = new int[nodeNum];
@@ -72,14 +89,6 @@ namespace Pathfinding
                 //set the next starting index for array copy
                 consIndex += nodeNum;
             }
-
-            foreach(Node n in nodes)
-            {
-                Console.Write(string.Join(" ", n.Connections));
-                Console.Write("\n");
-            }
-
-            Console.ReadKey();
         }
     }
 }
