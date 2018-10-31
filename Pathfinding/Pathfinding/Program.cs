@@ -11,8 +11,6 @@ namespace Pathfinding
     class Program
     {
 
-        
-        
 
         static void Main(string[] args)
         {
@@ -30,8 +28,13 @@ namespace Pathfinding
             //n*2 indexes after the first are coordinates
             int coordRange = (nodeNum * 2);
 
+            //organise a list of nodes with their respective coordinates and connections
             List<Node> nodes = new List<Node>();
             IntialiseNodes(data, nodeNum, coordRange, nodes);
+
+            //run algorithm
+            Calculate.Dijkstra(nodes);
+
 
             foreach (Node n in nodes)
             {
@@ -65,11 +68,15 @@ namespace Pathfinding
 
         private static void IntialiseNodes(int[] data, int nodeNum, int coordRange, List<Node> nodes)
         {
+
+            int nodeID = 1;
+
             //create array of nodes with coordinates
             for (int i = 1; i < coordRange; i += 2)
             {
-                Node node = new Node(i, i + 1);
+                Node node = new Node(nodeID, i, i + 1);
                 nodes.Add(node);
+                nodeID++;
             }
 
             //starting number of index to look at for connections from first node
