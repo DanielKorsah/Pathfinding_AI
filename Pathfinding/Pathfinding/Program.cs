@@ -28,24 +28,34 @@ namespace Pathfinding
             //n*2 indexes after the first are coordinates
             int coordRange = (nodeNum * 2);
 
-            //organise a list of nodes with their respective coordinates and connections
-            List<Node> nodes = new List<Node>();
+            //organise a Dictionary of nodes with their respective coordinates and connections (hash table improves performance with larger numbers)
+            Dictionary<int, Node> nodes = new Dictionary<int, Node>();
             IntialiseNodes(data, nodeNum, coordRange, nodes);
 
             //run algorithm
             Calculate.Dijkstra(nodes);
 
+            //print values for connections and coordinates
+            DebugPrint(nodes);
+        }
 
-            foreach (Node n in nodes)
+        private static void DebugPrint(Dictionary<int, Node> nodes)
+        {
+            for (int i = 0; i < nodes.Count; i++)
             {
-                Console.Write(string.Join(" ", n.Connections));
+                Console.Write(string.Join(" ", nodes[i].Connections));
+                Console.Write("\n");
+            }
+            Console.WriteLine();
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                Console.Write(string.Join(" ", nodes[i].X + "," + nodes[i].Y));
                 Console.Write("\n");
             }
 
             Console.ReadKey();
         }
-
-
 
         private static int[] GetData(string file)
         {
@@ -66,7 +76,7 @@ namespace Pathfinding
             }
         }
 
-        private static void IntialiseNodes(int[] data, int nodeNum, int coordRange, List<Node> nodes)
+        private static void IntialiseNodes(int[] data, int nodeNum, int coordRange, Dictionary<int, Node> nodes)
         {
 
             int nodeID = 1;
@@ -74,8 +84,8 @@ namespace Pathfinding
             //create array of nodes with coordinates
             for (int i = 1; i < coordRange; i += 2)
             {
-                Node node = new Node(nodeID, i, i + 1);
-                nodes.Add(node);
+                Node node = new Node(nodeID, data[i], data[i + 1]);
+                nodes.Add(nodeID-1, node);
                 nodeID++;
             }
 
