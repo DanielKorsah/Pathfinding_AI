@@ -50,7 +50,7 @@ namespace Pathfinding
 
             for (int i = 0; i < nodes.Count; i++)
             {
-                Console.Write(string.Join(" ", nodes[i].X + "," + nodes[i].Y));
+                Console.Write(string.Join(" ", i + ": " +nodes[i].X + "," + nodes[i].Y));
                 Console.Write("\n");
             }
 
