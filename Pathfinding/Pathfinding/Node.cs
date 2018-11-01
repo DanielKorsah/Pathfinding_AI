@@ -8,7 +8,7 @@ namespace Pathfinding
 {
     public class Node
     {
-        public int ID { get; private set }
+        public int ID { get; private set; }
         public int X { get; set; }
         public int Y { get; set; }
         public int[] Connections { get; private set; }
