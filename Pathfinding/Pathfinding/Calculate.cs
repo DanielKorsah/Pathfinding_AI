@@ -12,14 +12,18 @@ namespace Pathfinding
 
         public static void AStar(Dictionary<int, Node> nodes)
         {
+            //starting and ending points
+            Node startNode = nodes[0];
+            Node endNode = nodes[nodes.Count() - 1];
+
             //list of nodes already looked at
             List<Node> visited = new List<Node>();
 
             //set of available nodes not visited yet, begins with only the start node
             List<Node> unvisited = new List<Node>() { nodes[0] };
 
-            //dictionary of each node's ID and the ID of the node it can most efficiently be reached from
-            Dictionary<int, int> cameFrom;
+            //dictionary of each node's ID and the node it can most efficiently be reached from
+            Dictionary<int, Node> cameFrom;
 
             //for each node the smallest cost to get to that node from the start
             Dictionary<int, double> costSoFar;
@@ -27,81 +31,51 @@ namespace Pathfinding
             //the cost to get to current node from the start. Start to start is 0
             double cost = 0;
 
-            cost = Heuristic(cost, nodes[0], nodes[nodes.Count() - 1]);
+
+            cost = Heuristic(cost, startNode, endNode);
+
+            while(unvisited.Count > 0)
+            {
+                Node currentNode = MinimumSearch(unvisited);
+
+                if(currentNode == endNode)
+                {
+                    
+                }
+            }
         }
 
         //Heuristic is euclidian distance from point to end plus cost of getting here
         private static double Heuristic(double currentCost, Node thisNode, Node endNode)
         {
-            double a = thisNode.X - endNode.X;
-            double b = thisNode.Y - endNode.Y;
-
-            double distance = Math.Sqrt(a * a + b * b);
-            return distance;
+            double distanceToEnd = NodeDistance(thisNode, endNode);
+            return currentCost + distanceToEnd;
         }
 
-        public static void Dijkstra(Dictionary<int, Node> nodes)
+        //get the available node with the lowest cost
+        private static Node MinimumSearch(List<Node> nodes)
         {
-            //make set of unvisited nodes
-            Dictionary<int, Node> unvisited = nodes;
-
-            Node start = nodes[0];
-            Node destination = nodes[nodes.Count - 1];
-            Node currentNode;
-
-            start.Distance = 0;
-            destination.Visited = true;
-
-            int currentNodeID = 1;
-            currentNode = nodes[currentNodeID - 1];
-
-            //while the destination smaller than all unvisited or all nodes visited
-            while (unvisited.Count != 0 || DestinationReached(unvisited, destination))
+            Node min = nodes[0];
+            foreach( Node n in nodes)
             {
-                for (int i = 0; i < currentNode.Connections.Length; i++)
-                {
-                    //if connected
-                    if (currentNode.Connections[i] == 1)
-                    {
-                        //the node being looked at
-                        Node comparisonNode = nodes[currentNode.Connections[i]];
-
-                        //consider only unvisited neighbours
-                        if (!comparisonNode.Visited)
-                        {
-                            //calculate distance to node
-                            double distance = NodeDistance(currentNode, comparisonNode);
-
-                            //set distance to node if it's smaller than previous distance
-                            if (distance < comparisonNode.Distance)
-                                comparisonNode.Distance = distance;
-                        }
-                    }
-                }
-
-                //mark this node as visited
-                currentNode.Visited = true;
-                unvisited.Remove(currentNodeID - 1);
-
-                //track shortest distance withing node
-                int shortest = int.MaxValue;
-
-                //select the node with the smallest distance
-                for (int i = 0; i < currentNode.Connections.Length; i++)
-                {
-                    if (currentNode.Connections[i] == 1)
-                    {
-                        Node comparisonNode = nodes[currentNode.Connections[i]];
-                        if (comparisonNode.Distance < shortest)
-                            shortest = comparisonNode.ID-1;
-                    }
-                }
-
-                //set the new current node to the one with the shortest path
-                currentNode = nodes[shortest];
+                if(n.Cost < min.Cost)
+                min = n;
             }
+            return min;
+        }
 
-            Answer.Clear();
+        //path of nodes
+        public static List<Node> TotalPath(Node current, Dictionary<int, Node> cameFrom)
+        {
+            //start with current node
+            List<Node> total = new List<Node>() { current };
+            //add the node that came before as long as there is a record of the node it came from in the dictionary
+            while (cameFrom.Keys.Contains(current.ID))
+            {
+                current = cameFrom[current.ID];
+                total.Add(current);
+            }
+            return total;
         }
 
         private static bool DestinationReached(Dictionary<int, Node> unvisited, Node destination)

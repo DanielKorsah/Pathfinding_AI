@@ -12,7 +12,7 @@ namespace Pathfinding
         public int X { get; set; }
         public int Y { get; set; }
         public int[] Connections { get; private set; }
-        public double Distance { get; set; }
+        public double Cost { get; set; }
         public bool Visited { get; set; }
 
         public Node(int id, int a, int b)
@@ -23,7 +23,7 @@ namespace Pathfinding
 
             //by default is unvisited and tentative distance is infinity
             Visited = false;
-            Distance = Double.PositiveInfinity;
+            Cost = Double.PositiveInfinity;
         }
 
         public void SetConnections(int[] con) { Connections = con; } 
