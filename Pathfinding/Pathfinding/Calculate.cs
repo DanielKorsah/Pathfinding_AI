@@ -23,7 +23,7 @@ namespace Pathfinding
             List<Node> unvisited = new List<Node>() { nodes[0] };
 
             //dictionary of each node's ID and the node it can most efficiently be reached from
-            Dictionary<int, Node> cameFrom;
+            Dictionary<int, Node> cameFrom = new Dictionary<int, Node>();
 
             //for each node the smallest cost to get to that node from the start
             Dictionary<int, double> costSoFar;
@@ -34,15 +34,21 @@ namespace Pathfinding
 
             cost = Heuristic(cost, startNode, endNode);
 
+            //answer in form of list of ints where ints are IDs of nodes
+            IEnumerable<int> answer = new List<int>();
+
             while(unvisited.Count > 0)
             {
                 Node currentNode = MinimumSearch(unvisited);
 
                 if(currentNode == endNode)
                 {
-                    
+                    List<Node> answerNodes = TotalPath(currentNode, cameFrom);
+                    answer = answerNodes.Select(x => x.ID);
                 }
             }
+
+            Console.WriteLine("Answer: " + answer.ToString());
         }
 
         //Heuristic is euclidian distance from point to end plus cost of getting here
@@ -65,14 +71,14 @@ namespace Pathfinding
         }
 
         //path of nodes
-        public static List<Node> TotalPath(Node current, Dictionary<int, Node> cameFrom)
+        public static List<Node> TotalPath(Node current, Dictionary<int, Node> cameFromDict)
         {
             //start with current node
             List<Node> total = new List<Node>() { current };
             //add the node that came before as long as there is a record of the node it came from in the dictionary
-            while (cameFrom.Keys.Contains(current.ID))
+            while (cameFromDict.Keys.Contains(current.ID))
             {
-                current = cameFrom[current.ID];
+                current = cameFromDict[current.ID];
                 total.Add(current);
             }
             return total;
@@ -82,7 +88,7 @@ namespace Pathfinding
         {
             foreach (KeyValuePair<int, Node> u in unvisited)
             {
-                if (destination.Distance >= u.Value.Distance)
+                if (destination.Cost >= u.Value.Cost)
                     return false;
             }
             return true;
