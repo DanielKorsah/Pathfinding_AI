@@ -33,7 +33,8 @@ namespace Pathfinding
             IntialiseNodes(data, nodeNum, coordRange, nodes);
 
             //run algorithm
-            Calculate.Dijkstra(nodes);
+            //Calculate.Dijkstra(nodes);
+            Calculate.AStar(nodes);
 
             //print values for connections and coordinates
             DebugPrint(nodes);
@@ -50,7 +51,7 @@ namespace Pathfinding
 
             for (int i = 0; i < nodes.Count; i++)
             {
-                Console.Write(string.Join(" ", i + ": " +nodes[i].X + "," + nodes[i].Y));
+                Console.Write("Node " + nodes[i].ID + ", index " +  i + ": " +nodes[i].X + "," + nodes[i].Y);
                 Console.Write("\n");
             }
 

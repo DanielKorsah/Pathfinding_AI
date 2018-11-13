@@ -10,6 +10,36 @@ namespace Pathfinding
     {
         public static List<Node> Answer = new List<Node>();
 
+        public static void AStar(Dictionary<int, Node> nodes)
+        {
+            //list of nodes already looked at
+            List<Node> visited = new List<Node>();
+
+            //set of available nodes not visited yet, begins with only the start node
+            List<Node> unvisited = new List<Node>() { nodes[0] };
+
+            //dictionary of each node's ID and the ID of the node it can most efficiently be reached from
+            Dictionary<int, int> cameFrom;
+
+            //for each node the smallest cost to get to that node from the start
+            Dictionary<int, double> costSoFar;
+
+            //the cost to get to current node from the start. Start to start is 0
+            double cost = 0;
+
+            cost = Heuristic(cost, nodes[0], nodes[nodes.Count() - 1]);
+        }
+
+        //Heuristic is euclidian distance from point to end plus cost of getting here
+        private static double Heuristic(double currentCost, Node thisNode, Node endNode)
+        {
+            double a = thisNode.X - endNode.X;
+            double b = thisNode.Y - endNode.Y;
+
+            double distance = Math.Sqrt(a * a + b * b);
+            return distance;
+        }
+
         public static void Dijkstra(Dictionary<int, Node> nodes)
         {
             //make set of unvisited nodes
