@@ -32,12 +32,29 @@ namespace Pathfinding
             Dictionary<int, Node> nodes = new Dictionary<int, Node>();
             IntialiseNodes(data, nodeNum, coordRange, nodes);
 
-            //run algorithm
-            //Calculate.Dijkstra(nodes);
-            Calculate.AStar(nodes);
-
             //print values for connections and coordinates
             DebugPrint(nodes);
+
+            //run algorithm
+            Calculate.AStar(nodes);
+
+            //print answer to console
+            AnswerPrint(Calculate.Answer.ToList());
+
+            
+        }
+
+        private static void AnswerPrint(List<int> answerList)
+        {
+            Console.Write("\n");
+            Console.Write("Answer: ");
+            foreach (int id in answerList)
+            {
+                Console.Write(id);
+            }
+            Console.Write("\n\n");
+
+            Console.ReadKey();
         }
 
         private static void DebugPrint(Dictionary<int, Node> nodes)
@@ -54,8 +71,6 @@ namespace Pathfinding
                 Console.Write("Node " + nodes[i].ID + ", index " +  i + ": " +nodes[i].X + "," + nodes[i].Y);
                 Console.Write("\n");
             }
-
-            Console.ReadKey();
         }
 
         private static int[] GetData(string file)

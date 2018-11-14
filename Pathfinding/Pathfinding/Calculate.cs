@@ -8,7 +8,7 @@ namespace Pathfinding
 {
     public static class Calculate
     {
-        public static List<Node> Answer = new List<Node>();
+        public static IEnumerable<int> Answer = new List<int>();
 
         public static void AStar(Dictionary<int, Node> nodes)
         {
@@ -35,7 +35,6 @@ namespace Pathfinding
             startNode.Cost = Heuristic(cost, startNode, endNode);
 
             //answer in form of list of ints where ints are IDs of nodes
-            IEnumerable<int> answer = new List<int>();
 
             while(unvisited.Count > 0)
             {
@@ -44,7 +43,7 @@ namespace Pathfinding
                 if(currentNode == endNode)
                 {
                     List<Node> answerNodes = TotalPath(currentNode, cameFrom);
-                    answer = answerNodes.Select(x => x.ID);
+                    Answer = answerNodes.Select(x => x.ID);
                 }
 
                 //update vistited/unvisited node lists
@@ -83,12 +82,14 @@ namespace Pathfinding
                 }
             }
 
-            Console.Write("Answer: ");
-            foreach (int id in answer.ToList())
-            {
-                Console.Write(id);
-            }
-            Console.Write("\n");
+            Answer = Answer.Reverse();
+
+            //Console.Write("Answer: ");
+            //foreach (int id in Answer.ToList())
+            //{
+            //    Console.Write(id);
+            //}
+            //Console.Write("\n\n");
 
         }
 
