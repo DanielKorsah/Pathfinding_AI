@@ -16,23 +16,23 @@ namespace Pathfinding
             Node startNode = nodes[0];
             Node endNode = nodes[nodes.Count() - 1];
 
-            //list of nodes already looked at
+            //list of nodes already looked at : closed set
             List<Node> visited = new List<Node>();
 
-            //set of available nodes not visited yet, begins with only the start node
+            //set of available nodes not visited yet, begins with only the start node : open set
             List<Node> unvisited = new List<Node>() { nodes[0] };
 
             //dictionary of each node's ID and the node it can most efficiently be reached from
             Dictionary<int, Node> cameFrom = new Dictionary<int, Node>();
 
             //for each node the smallest cost to get to that node from the start
-            Dictionary<int, double> costSoFar;
+            Dictionary<int, double> costSoFar = new Dictionary<int, double>();
 
             //the cost to get to current node from the start. Start to start is 0
             double cost = 0;
 
-
-            cost = Heuristic(cost, startNode, endNode);
+            //first node's cost is completely heuristic
+            startNode.Cost = Heuristic(cost, startNode, endNode);
 
             //answer in form of list of ints where ints are IDs of nodes
             IEnumerable<int> answer = new List<int>();
@@ -46,9 +46,50 @@ namespace Pathfinding
                     List<Node> answerNodes = TotalPath(currentNode, cameFrom);
                     answer = answerNodes.Select(x => x.ID);
                 }
+
+                //update vistited/unvisited node lists
+                unvisited.Remove(currentNode);
+                visited.Add(currentNode);
+
+                //for all nodes
+                for(int i = 0; i<currentNode.Connections.Count(); i++)
+                {
+                    //check the flag at the index to see if it's connected
+                    int flag = currentNode.Connections[i];
+
+                    //if connected to the current node
+                    if (flag == 1)
+                    {
+                        //neighbour node for comparisons
+                        Node neighbour = nodes[i];
+
+                        //ignore a neighbour if already evaluated
+                        if (visited.Contains(neighbour))
+                            continue;
+
+                        //distance from start to neighbour
+                        double tenativeCost = currentNode.Cost + NodeDistance(currentNode, neighbour);
+
+                        if (!unvisited.Contains(neighbour)) //Discover a new node
+                            unvisited.Add(neighbour);
+                        else if (tenativeCost >= neighbour.Cost)
+                            continue;   //this path s not the better one
+
+                        //this path is the best for now, it is recorded
+                        cameFrom.Add(neighbour.ID, currentNode);
+                        neighbour.Cost = tenativeCost;
+                        costSoFar.Add(neighbour.ID, tenativeCost + Heuristic(tenativeCost, neighbour, endNode));
+                    }
+                }
             }
 
-            Console.WriteLine("Answer: " + answer.ToString());
+            Console.Write("Answer: ");
+            foreach (int id in answer.ToList())
+            {
+                Console.Write(id);
+            }
+            Console.Write("\n");
+
         }
 
         //Heuristic is euclidian distance from point to end plus cost of getting here
