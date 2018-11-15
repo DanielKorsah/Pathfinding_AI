@@ -74,9 +74,18 @@ namespace Pathfinding
                         else if (tenativeCost >= neighbour.Cost)
                             continue;   //this path s not the better one
 
-                        //this path is the best for now, it is recorded
+                        //this path is the best for now, it is recorded. If the node has an index in the dictionary already, delete it and replace it
+                        if (cameFrom.Keys.Contains(neighbour.ID))
+                        {
+                            cameFrom.Remove(neighbour.ID);
+                        }
                         cameFrom.Add(neighbour.ID, currentNode);
                         neighbour.Cost = tenativeCost;
+                        //If the node has an index in the dictionary already, delete it and replace it
+                        if (cameFrom.Keys.Contains(neighbour.ID))
+                        {
+                            costSoFar.Remove(neighbour.ID);
+                        }
                         costSoFar.Add(neighbour.ID, tenativeCost + Heuristic(tenativeCost, neighbour, endNode));
                     }
                 }

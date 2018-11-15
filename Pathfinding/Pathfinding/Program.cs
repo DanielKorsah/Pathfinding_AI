@@ -33,7 +33,8 @@ namespace Pathfinding
             IntialiseNodes(data, nodeNum, coordRange, nodes);
 
             //print values for connections and coordinates
-            DebugPrint(nodes);
+            //DebugPrint(nodes);
+            DebugFile(nodes);
 
             //run algorithm
             Calculate.AStar(nodes);
@@ -50,11 +51,31 @@ namespace Pathfinding
             Console.Write("Answer: ");
             foreach (int id in answerList)
             {
-                Console.Write(id);
+                Console.Write(id + " ");
             }
             Console.Write("\n\n");
 
             Console.ReadKey();
+        }
+
+        private static void DebugFile(Dictionary<int, Node> nodes)
+        {
+            using (System.IO.StreamWriter file =
+            new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/datasets/" + "debug.txt"))
+            {
+                for (int i = 0; i < nodes.Count; i++)
+                {
+                    file.Write(string.Join(" ", nodes[i].Connections));
+                    file.Write("\n");
+                }
+                file.WriteLine();
+
+                for (int i = 0; i < nodes.Count; i++)
+                {
+                    file.Write("Node " + nodes[i].ID + ", index " + i + ": " + nodes[i].X + "," + nodes[i].Y);
+                    file.Write("\n");
+                }
+            }
         }
 
         private static void DebugPrint(Dictionary<int, Node> nodes)
@@ -117,7 +138,7 @@ namespace Pathfinding
                 //copy from data array starting at index where connections start, to the temp array at index 0 for length of the number of nodes
                 Array.Copy(data, consIndex, temp, 0, nodeNum);
 
-                nodes[i].SetConnections(temp);
+                nodes[temp].SetConnections(i);
 
                 //set the next starting index for array copy
                 consIndex += nodeNum;
