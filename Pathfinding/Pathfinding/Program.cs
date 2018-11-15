@@ -129,7 +129,7 @@ namespace Pathfinding
             //starting number of index to look at for connections from first node
             int consIndex = coordRange + 1;
 
-            //set connections for each node
+            //set connections for each node : wrongly
             for (int i = 0; i < nodeNum; i++)
             {
 
@@ -138,11 +138,27 @@ namespace Pathfinding
                 //copy from data array starting at index where connections start, to the temp array at index 0 for length of the number of nodes
                 Array.Copy(data, consIndex, temp, 0, nodeNum);
 
-                nodes[temp].SetConnections(i);
+                nodes[i].SetConnections(temp);
 
                 //set the next starting index for array copy
                 consIndex += nodeNum;
             }
+
+            Dictionary<int, Node> nodesTempCopy
+                = nodes;
+
+            for(int i = 0; i < nodeNum; i++)
+            {
+                
+                nodes[i].Connections =new int[nodeNum];
+
+                foreach(KeyValuePair<int, Node> node in nodes)
+                {
+                    node.Value.Connections[node.Key] = nodesTempCopy[node.Key].Connections[i];
+                }
+            }
+
+
         }
     }
 }

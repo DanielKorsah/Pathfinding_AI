@@ -11,7 +11,7 @@ namespace Pathfinding
         public int ID { get; private set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public int[] Connections { get; private set; }
+        public int[] Connections { get; set; }
         public double Cost { get; set; }
         public bool Visited { get; set; }
 
