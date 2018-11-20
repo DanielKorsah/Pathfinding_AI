@@ -115,7 +115,7 @@ namespace Pathfinding
 
         private static void IntialiseNodes(int[] data, int nodeNum, int coordRange, Dictionary<int, Node> nodes)
         {
-
+            
             int nodeID = 1;
 
             //create array of nodes with coordinates
@@ -144,20 +144,20 @@ namespace Pathfinding
                 consIndex += nodeNum;
             }
 
-            Dictionary<int, Node> nodesTempCopy
-                = nodes;
+            DebugPrint(nodes);
 
-            for(int i = 0; i < nodeNum; i++)
+            Dictionary<int, Node> nodesTempCopy = new Dictionary<int, Node>(nodes);
+            
+
+            for (int i = 0; i < nodeNum; i++)
             {
-                
-                nodes[i].Connections =new int[nodeNum];
-
-                foreach(KeyValuePair<int, Node> node in nodes)
+                for(int j = 0; j < nodeNum; j++)
                 {
-                    node.Value.Connections[node.Key] = nodesTempCopy[node.Key].Connections[i];
+                    nodes[j].Connections[i] = nodesTempCopy[i].Connections[j];
                 }
             }
 
+            DebugPrint(nodes);
 
         }
     }
