@@ -75,7 +75,7 @@ namespace Pathfinding
 
                 for (int i = 0; i < nodes.Count; i++)
                 {
-                    file.Write("Node " + nodes[i].ID + ", index " + i + ": " + nodes[i].X + "," + nodes[i].Y);
+                    file.Write("Node " + nodes[i].ID + ", index " + i + ": " + nodes[i].X + "," + nodes[i].Y + " Connections: " + string.Join(" ", nodes[i].Connections));
                     file.Write("\n");
                 }
             }
@@ -92,7 +92,7 @@ namespace Pathfinding
 
             for (int i = 0; i < nodes.Count; i++)
             {
-                Console.Write("Node " + nodes[i].ID + ", index " +  i + ": " +nodes[i].X + "," + nodes[i].Y);
+                Console.Write("Node " + nodes[i].ID + ", index " +  i + ": " +nodes[i].X + "," + nodes[i].Y + " Connections: " + string.Join(" ", nodes[i].Connections));
                 Console.Write("\n");
             }
         }
@@ -147,7 +147,7 @@ namespace Pathfinding
                 consIndex += nodeNum;
             }
 
-            //DebugPrint(nodes);
+            DebugPrint(nodes);
 
             Dictionary<int, Node> nodesTempCopy = new Dictionary<int, Node>(nodes);
             
@@ -160,7 +160,7 @@ namespace Pathfinding
                 }
             }
 
-            //DebugPrint(nodes);
+            DebugPrint(nodes);
 
         }
     }

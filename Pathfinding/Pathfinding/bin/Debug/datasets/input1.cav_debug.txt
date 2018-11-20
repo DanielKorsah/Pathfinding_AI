@@ -1,0 +1,17 @@
+input1.cav
+
+0 0 0 1 0 0 0
+0 0 0 1 1 0 0
+0 0 0 0 1 1 1
+1 1 0 0 1 1 0
+0 1 1 1 0 0 0
+0 0 1 1 0 0 0
+0 0 1 0 0 0 0
+
+Node 1, index 0: 2,8 Connections: 0 0 0 1 0 0 0
+Node 2, index 1: 3,2 Connections: 0 0 0 1 1 0 0
+Node 3, index 2: 14,5 Connections: 0 0 0 0 1 1 1
+Node 4, index 3: 7,6 Connections: 1 1 0 0 1 1 0
+Node 5, index 4: 11,2 Connections: 0 1 1 1 0 0 0
+Node 6, index 5: 11,6 Connections: 0 0 1 1 0 0 0
+Node 7, index 6: 14,1 Connections: 0 0 1 0 0 0 0
