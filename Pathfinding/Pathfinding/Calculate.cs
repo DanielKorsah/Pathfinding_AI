@@ -92,6 +92,8 @@ namespace Pathfinding
             }
 
             Answer = Answer.Reverse();
+            if (Answer.Count() < 1)
+                Answer = new List<int>() { 0 };
 
             //Console.Write("Answer: ");
             //foreach (int id in Answer.ToList())

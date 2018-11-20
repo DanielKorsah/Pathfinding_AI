@@ -34,7 +34,7 @@ namespace Pathfinding
 
             //print values for connections and coordinates
             //DebugPrint(nodes);
-            DebugFile(nodes);
+            DebugFile(nodes, file);
 
             //run algorithm
             Calculate.AStar(nodes);
@@ -58,11 +58,14 @@ namespace Pathfinding
             Console.ReadKey();
         }
 
-        private static void DebugFile(Dictionary<int, Node> nodes)
+        private static void DebugFile(Dictionary<int, Node> nodes, string name)
         {
             using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/datasets/" + "debug.txt"))
+            new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/datasets/" + name + "_debug.txt"))
             {
+
+                file.WriteLine(name);
+                file.WriteLine();
                 for (int i = 0; i < nodes.Count; i++)
                 {
                     file.Write(string.Join(" ", nodes[i].Connections));
@@ -144,7 +147,7 @@ namespace Pathfinding
                 consIndex += nodeNum;
             }
 
-            DebugPrint(nodes);
+            //DebugPrint(nodes);
 
             Dictionary<int, Node> nodesTempCopy = new Dictionary<int, Node>(nodes);
             
@@ -157,7 +160,7 @@ namespace Pathfinding
                 }
             }
 
-            DebugPrint(nodes);
+            //DebugPrint(nodes);
 
         }
     }
