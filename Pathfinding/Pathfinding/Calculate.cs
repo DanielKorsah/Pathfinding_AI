@@ -17,10 +17,10 @@ namespace Pathfinding
             Node endNode = nodes[nodes.Count() - 1];
 
             //list of nodes already looked at : closed set
-            List<Node> visited = new List<Node>();
+            List<Node> closedSet = new List<Node>();
 
             //set of available nodes not visited yet, begins with only the start node : open set
-            List<Node> unvisited = new List<Node>() { nodes[0] };
+            List<Node> openSet = new List<Node>() { nodes[0] };
 
             //dictionary of each node's ID and the node it can most efficiently be reached from
             Dictionary<int, Node> cameFrom = new Dictionary<int, Node>();
@@ -36,9 +36,9 @@ namespace Pathfinding
 
             //answer in form of list of ints where ints are IDs of nodes
 
-            while(unvisited.Count > 0)
+            while(openSet.Count > 0)
             {
-                Node currentNode = MinimumSearch(unvisited);
+                Node currentNode = MinimumSearch(openSet);
 
                 if(currentNode == endNode)
                 {
@@ -47,8 +47,8 @@ namespace Pathfinding
                 }
 
                 //update vistited/unvisited node lists
-                unvisited.Remove(currentNode);
-                visited.Add(currentNode);
+                openSet.Remove(currentNode);
+                closedSet.Add(currentNode);
 
                 //for all nodes
                 for(int i = 0; i<currentNode.Connections.Count(); i++)
@@ -63,14 +63,14 @@ namespace Pathfinding
                         Node neighbour = nodes[i];
 
                         //ignore a neighbour if already evaluated
-                        if (visited.Contains(neighbour))
+                        if (closedSet.Contains(neighbour))
                             continue;
 
                         //distance from start to neighbour
                         double tenativeCost = currentNode.Cost + NodeDistance(currentNode, neighbour);
 
-                        if (!unvisited.Contains(neighbour)) //Discover a new node
-                            unvisited.Add(neighbour);
+                        if (!openSet.Contains(neighbour)) //Discover a new node
+                            openSet.Add(neighbour);
                         else if (tenativeCost >= neighbour.Cost)
                             continue;   //this path s not the better one
 

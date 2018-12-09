@@ -83,14 +83,14 @@ namespace Pathfinding
 
         private static void DebugPrint(Dictionary<int, Node> nodes)
         {
-            for (int i = 0; i < nodes.Count; i++)
+            for (int i = 1; i <= nodes.Count; i++)
             {
                 Console.Write(string.Join(" ", nodes[i].Connections));
                 Console.Write("\n");
             }
             Console.WriteLine();
 
-            for (int i = 0; i < nodes.Count; i++)
+            for (int i = 1; i <= nodes.Count; i++)
             {
                 Console.Write("Node " + nodes[i].ID + ", index " +  i + ": " +nodes[i].X + "," + nodes[i].Y + " Connections: " + string.Join(" ", nodes[i].Connections));
                 Console.Write("\n");
@@ -125,40 +125,37 @@ namespace Pathfinding
             for (int i = 1; i < coordRange; i += 2)
             {
                 Node node = new Node(nodeID, data[i], data[i + 1]);
-                nodes.Add(nodeID-1, node);
+                nodes.Add(nodeID, node);
                 nodeID++;
             }
 
             //starting number of index to look at for connections from first node
             int consIndex = coordRange + 1;
 
-            //set connections for each node : wrongly
-            for (int i = 0; i < nodeNum; i++)
+            int from = 1;
+            int to = 1;
+
+            for (int i = 1; i < nodeNum * nodeNum; i++)
             {
-
-                int[] temp = new int[nodeNum];
-
-                //copy from data array starting at index where connections start, to the temp array at index 0 for length of the number of nodes
-                Array.Copy(data, consIndex, temp, 0, nodeNum);
-
-                nodes[i].SetConnections(temp);
-
-                //set the next starting index for array copy
-                consIndex += nodeNum;
-            }
-
-            DebugPrint(nodes);
-
-            Dictionary<int, Node> nodesTempCopy = new Dictionary<int, Node>(nodes);
-            
-
-            for (int i = 0; i < nodeNum; i++)
-            {
-                for(int j = 0; j < nodeNum; j++)
+                //after each segment of ints whoes length is equal to the number of caves we bump the "to" node and reset the from back to 1
+                if (from > nodeNum)
                 {
-                    nodes[j].Connections[i] = nodesTempCopy[i].Connections[j];
+                    from = 1;
+                    to++;
                 }
+
+                // if int at index is 1 then from is connected to to
+                if (data[consIndex] == 1)
+                {
+                    if (from != to)
+                    {
+                        nodes[from].Connections.Add(to);
+                    }
+                }
+                from++;
+                consIndex++;
             }
+
 
             DebugPrint(nodes);
 
