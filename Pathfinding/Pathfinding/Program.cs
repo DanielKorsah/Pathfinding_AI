@@ -32,69 +32,13 @@ namespace Pathfinding
             Dictionary<int, Node> nodes = new Dictionary<int, Node>();
             IntialiseNodes(data, nodeNum, coordRange, nodes);
 
-            //print values for connections and coordinates
-            //DebugPrint(nodes);
-            DebugFile(nodes, file);
-
             //run algorithm
             Calculate.AStar(nodes);
 
+            IO.OutputFile(nodes, file);
+
             //print answer to console
-            AnswerPrint(Calculate.Answer.ToList());
-
-            
-        }
-
-        private static void AnswerPrint(List<int> answerList)
-        {
-            Console.Write("\n");
-            Console.Write("Answer: ");
-            foreach (int id in answerList)
-            {
-                Console.Write(id + " ");
-            }
-            Console.Write("\n\n");
-
-            Console.ReadKey();
-        }
-
-        private static void DebugFile(Dictionary<int, Node> nodes, string name)
-        {
-            using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/datasets/" + name + "_debug.txt"))
-            {
-
-                file.WriteLine(name);
-                file.WriteLine();
-                for (int i = 1; i <= nodes.Count; i++)
-                {
-                    file.Write(string.Join(" ", nodes[i].Connections));
-                    file.Write("\n");
-                }
-                file.WriteLine();
-
-                for (int i = 1; i <= nodes.Count; i++)
-                {
-                    file.Write("Node " + nodes[i].ID + ", index " + i + ": " + nodes[i].X + "," + nodes[i].Y + " Connections: " + string.Join(" ", nodes[i].Connections));
-                    file.Write("\n");
-                }
-            }
-        }
-
-        private static void DebugPrint(Dictionary<int, Node> nodes)
-        {
-            for (int i = 1; i <= nodes.Count; i++)
-            {
-                Console.Write(string.Join(" ", nodes[i].Connections));
-                Console.Write("\n");
-            }
-            Console.WriteLine();
-
-            for (int i = 1; i <= nodes.Count; i++)
-            {
-                Console.Write("Node " + nodes[i].ID + ", index " +  i + ": " +nodes[i].X + "," + nodes[i].Y + " Connections: " + string.Join(" ", nodes[i].Connections));
-                Console.Write("\n");
-            }
+            IO.AnswerPrint(Calculate.Answer.ToList());
         }
 
         private static int[] GetData(string file)
@@ -157,7 +101,7 @@ namespace Pathfinding
             }
 
 
-            DebugPrint(nodes);
+            //Debug.DebugPrint(nodes);
 
         }
     }
