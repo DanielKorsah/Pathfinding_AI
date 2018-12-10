@@ -66,14 +66,14 @@ namespace Pathfinding
 
                 file.WriteLine(name);
                 file.WriteLine();
-                for (int i = 0; i < nodes.Count; i++)
+                for (int i = 1; i <= nodes.Count; i++)
                 {
                     file.Write(string.Join(" ", nodes[i].Connections));
                     file.Write("\n");
                 }
                 file.WriteLine();
 
-                for (int i = 0; i < nodes.Count; i++)
+                for (int i = 1; i <= nodes.Count; i++)
                 {
                     file.Write("Node " + nodes[i].ID + ", index " + i + ": " + nodes[i].X + "," + nodes[i].Y + " Connections: " + string.Join(" ", nodes[i].Connections));
                     file.Write("\n");

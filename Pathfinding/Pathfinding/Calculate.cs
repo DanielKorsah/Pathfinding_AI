@@ -13,14 +13,14 @@ namespace Pathfinding
         public static void AStar(Dictionary<int, Node> nodes)
         {
             //starting and ending points
-            Node startNode = nodes[0];
-            Node endNode = nodes[nodes.Count() - 1];
+            Node startNode = nodes[1];
+            Node endNode = nodes[nodes.Count()];
 
             //list of nodes already looked at : closed set
             List<Node> closedSet = new List<Node>();
 
             //set of available nodes not visited yet, begins with only the start node : open set
-            List<Node> openSet = new List<Node>() { nodes[0] };
+            List<Node> openSet = new List<Node>() { nodes[1] };
 
             //dictionary of each node's ID and the node it can most efficiently be reached from
             Dictionary<int, Node> cameFrom = new Dictionary<int, Node>();
@@ -50,44 +50,38 @@ namespace Pathfinding
                 openSet.Remove(currentNode);
                 closedSet.Add(currentNode);
 
-                //for all nodes
-                for(int i = 0; i<currentNode.Connections.Count(); i++)
+                //for each connected node (neighbour)
+                foreach(int i in currentNode.Connections)
                 {
-                    //check the flag at the index to see if it's connected
-                    int flag = currentNode.Connections[i];
+                    //neighbour node for comparisons
+                    Node neighbour = nodes[i];
 
-                    //if connected to the current node
-                    if (flag == 1)
+                    //ignore a neighbour if already evaluated
+                    if (closedSet.Contains(neighbour))
+                        continue;
+
+                    //distance from start to neighbour
+                    double tenativeCost = currentNode.Cost + NodeDistance(currentNode, neighbour);
+
+                    if (!openSet.Contains(neighbour)) //Discover a new node
+                        openSet.Add(neighbour);
+                    else if (tenativeCost >= neighbour.Cost)
+                        continue;   //this path s not the better one
+
+                    //this path is the best for now, it is recorded. If the node has an index in the dictionary already, delete it and replace it
+                    if (cameFrom.Keys.Contains(neighbour.ID))
                     {
-                        //neighbour node for comparisons
-                        Node neighbour = nodes[i];
-
-                        //ignore a neighbour if already evaluated
-                        if (closedSet.Contains(neighbour))
-                            continue;
-
-                        //distance from start to neighbour
-                        double tenativeCost = currentNode.Cost + NodeDistance(currentNode, neighbour);
-
-                        if (!openSet.Contains(neighbour)) //Discover a new node
-                            openSet.Add(neighbour);
-                        else if (tenativeCost >= neighbour.Cost)
-                            continue;   //this path s not the better one
-
-                        //this path is the best for now, it is recorded. If the node has an index in the dictionary already, delete it and replace it
-                        if (cameFrom.Keys.Contains(neighbour.ID))
-                        {
-                            cameFrom.Remove(neighbour.ID);
-                        }
-                        cameFrom.Add(neighbour.ID, currentNode);
-                        neighbour.Cost = tenativeCost;
-                        //If the node has an index in the dictionary already, delete it and replace it
-                        if (cameFrom.Keys.Contains(neighbour.ID))
-                        {
-                            costSoFar.Remove(neighbour.ID);
-                        }
-                        costSoFar.Add(neighbour.ID, tenativeCost + Heuristic(tenativeCost, neighbour, endNode));
+                        cameFrom.Remove(neighbour.ID);
                     }
+                    cameFrom.Add(neighbour.ID, currentNode);
+                    neighbour.Cost = tenativeCost;
+                    //If the node has an index in the dictionary already, delete it and replace it
+                    if (cameFrom.Keys.Contains(neighbour.ID))
+                    {
+                        costSoFar.Remove(neighbour.ID);
+                    }
+
+                    costSoFar.Add(neighbour.ID, tenativeCost + Heuristic(tenativeCost, neighbour, endNode));
                 }
             }
 
