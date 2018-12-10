@@ -45,7 +45,7 @@ namespace Pathfinding
         {
             try
             {
-                string path = Directory.GetCurrentDirectory() + @"/datasets/" + file;
+                string path = Directory.GetCurrentDirectory() + @"/datasets/" + file + ".cav";
                 string s = File.ReadAllText(path);
                 string[] stringData = Regex.Split(s, ",");
                 return Array.ConvertAll(stringData, int.Parse);
