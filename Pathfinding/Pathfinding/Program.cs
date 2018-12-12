@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace Pathfinding
 {
@@ -20,7 +19,7 @@ namespace Pathfinding
             string file = args[0];
 
             //get the data out of the file as an array
-            int[] data = GetData(file);
+            int[] data = IO.GetData(file);
 
             //number of nodes is at index 0
             int nodeNum = data[0];
@@ -40,25 +39,7 @@ namespace Pathfinding
             //print answer to console
             IO.AnswerPrint(Calculate.Answer.ToList());
         }
-
-        private static int[] GetData(string file)
-        {
-            try
-            {
-                string path = Directory.GetCurrentDirectory() + @"/datasets/" + file + ".cav";
-                string s = File.ReadAllText(path);
-                string[] stringData = Regex.Split(s, ",");
-                return Array.ConvertAll(stringData, int.Parse);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("File cannot be read");
-                Console.WriteLine(e.Message);
-                Console.WriteLine(file);
-                Environment.Exit(3);    //exit code 2 : The system cannot find the file specified.
-                return null;
-            }
-        }
+        
 
         private static void IntialiseNodes(int[] data, int nodeNum, int coordRange, Dictionary<int, Node> nodes)
         {
@@ -99,9 +80,8 @@ namespace Pathfinding
                 from++;
                 consIndex++;
             }
-
-
-            //Debug.DebugPrint(nodes);
+            
+            //IO.DebugPrint(nodes);
 
         }
     }

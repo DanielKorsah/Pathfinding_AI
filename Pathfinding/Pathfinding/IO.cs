@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Text.RegularExpressions;
+
 
 namespace Pathfinding
 {
@@ -19,13 +21,32 @@ namespace Pathfinding
             }
             Console.Write("\n\n");
 
-            Console.ReadKey();
+            //Console.ReadKey();
+        }
+
+        public static int[] GetData(string file)
+        {
+            //try
+            //{
+                string path = Directory.GetCurrentDirectory() + "/" + file + ".cav";
+                string s = File.ReadAllText(path);
+                string[] stringData = Regex.Split(s, ",");
+                return Array.ConvertAll(stringData, int.Parse);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("File cannot be read");
+            //    Console.WriteLine(e.Message);
+            //    Console.WriteLine(file);
+            //    Environment.Exit(3);    //exit code 2 : The system cannot find the file specified.
+            //    return null;
+            //}
         }
 
         public static void DebugFile(Dictionary<int, Node> nodes, string name)
         {
             using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/datasets/" + name + "_debug.txt"))
+            new System.IO.StreamWriter(Directory.GetCurrentDirectory() + "/" + name + "_debug.txt"))
             {
 
                 file.WriteLine(name);
@@ -48,7 +69,7 @@ namespace Pathfinding
         public static void OutputFile(Dictionary<int, Node> nodes, string name)
         {
             using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(Directory.GetCurrentDirectory() + @"/datasets/" + name + ".csn"))
+            new System.IO.StreamWriter(Directory.GetCurrentDirectory() + "/" + name + ".csn"))
             {
                 for(int i = 0; i < Calculate.Answer.ToList().Count(); i++)
                 {

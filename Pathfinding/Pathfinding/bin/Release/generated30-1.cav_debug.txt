@@ -1,0 +1,63 @@
+generated30-1.cav
+
+2 7
+3
+4 8 9
+3 5 9 10
+4 10
+2 11
+6 11 12
+2 4 7 9 13
+13
+4 9 15
+12
+13 16
+14
+15 18 19
+14 19 20
+12 17
+11 16 21
+12 17 23
+13 15 18 20 23 24
+14
+16 26
+16 21 23 27
+18 22 24 28 29
+18 19 23 25
+
+
+21 28
+23 27 29
+24 28 30
+24
+
+Node 1, index 1: 1,0 Connections: 2 7
+Node 2, index 2: 8,2 Connections: 3
+Node 3, index 3: 13,2 Connections: 4 8 9
+Node 4, index 4: 20,1 Connections: 3 5 9 10
+Node 5, index 5: 24,0 Connections: 4 10
+Node 6, index 6: 1,8 Connections: 2 11
+Node 7, index 7: 6,7 Connections: 6 11 12
+Node 8, index 8: 12,6 Connections: 2 4 7 9 13
+Node 9, index 9: 19,6 Connections: 13
+Node 10, index 10: 26,7 Connections: 4 9 15
+Node 11, index 11: 2,12 Connections: 12
+Node 12, index 12: 8,14 Connections: 13 16
+Node 13, index 13: 14,14 Connections: 14
+Node 14, index 14: 20,13 Connections: 15 18 19
+Node 15, index 15: 26,14 Connections: 14 19 20
+Node 16, index 16: 0,19 Connections: 12 17
+Node 17, index 17: 8,20 Connections: 11 16 21
+Node 18, index 18: 14,18 Connections: 12 17 23
+Node 19, index 19: 18,19 Connections: 13 15 18 20 23 24
+Node 20, index 20: 24,19 Connections: 14
+Node 21, index 21: 0,24 Connections: 16 26
+Node 22, index 22: 7,24 Connections: 16 21 23 27
+Node 23, index 23: 14,24 Connections: 18 22 24 28 29
+Node 24, index 24: 18,25 Connections: 18 19 23 25
+Node 25, index 25: 25,25 Connections: 
+Node 26, index 26: 0,32 Connections: 
+Node 27, index 27: 6,32 Connections: 21 28
+Node 28, index 28: 13,32 Connections: 23 27 29
+Node 29, index 29: 18,32 Connections: 24 28 30
+Node 30, index 30: 25,31 Connections: 24
